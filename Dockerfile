@@ -1,13 +1,14 @@
 #name of container: zoneminder-nginx
 #versison of container: 0.0.1
-FROM ubuntu:14.04 
+FROM debian:jessie 
 MAINTAINER Vadim Vagin "vadikvs666@gmail.com"
 ENV TZ Asia/Omsk
 ENV PORT 8080
+RUN echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository ppa:iconnor/zoneminder && echo $TZ > /etc/timezone && apt-get update 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server mysql-client zoneminder nginx-extras fcgiwrap  nginx php5-fpm \
                     && apt-get clean                 
+RUN apte-get install -y ffmpeg
 COPY zm.conf /etc/nginx/sites-available/zoneminder
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm /etc/nginx/sites-available/default
